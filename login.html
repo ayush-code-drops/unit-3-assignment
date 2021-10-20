@@ -12,12 +12,56 @@ input{
     </style>
 </head>
 <body>
-    <form action="" id="form"></form>
-    <input type="text" placeholder="Enter your name" id="userName">
-    <input type="text" placeholder="Enter Password" id="password">
+    <form action="" id="form">
+    <input type="text" placeholder="Enter your name" id="userName" required>
+    <input type="text" placeholder="Your Year of Birth" id="password" required>
     <input type="submit" value="Login" id="loginBtn">
-
+</form>
     <script>
+const userName=document.getElementById('userName');
+const password=document.getElementById('password');
+const loginBtn=document.getElementById('loginBtn')
+const form=document.getElementById('form')
+form.addEventListener('submit',function(e){
+    e.preventDefault()
+validateForm()
+})
+
+
+function validateForm(){
+    
+   return fetch('https://reqres.in/api/login')
+    .then(
+(response)=> response.json()
+    )
+    .then(
+        (res)=>{
+            console.log(res.data)
+        var isValid=checkingDetails(res.data)
+       console.log(isValid)
+       if(isValid){
+           alert('Login Successful')
+           window.location.href='home.html'
+           
+       }
+       else{
+           alert('Wrong Credentials')
+       }
+        }
+
+    )
+}
+
+function checkingDetails(data){
+for(i=0;i<data.length;i++){
+    if(data[i].name==userName.value &&data[i].year==password.value){
+return true
+    }
+    
+}
+return false
+}
+
 
     </script>
 </body>
